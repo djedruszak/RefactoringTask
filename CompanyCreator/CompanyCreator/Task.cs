@@ -31,12 +31,14 @@ public class Employee : Person
     public const int HR = 0;
     public const int ContentWriter = 1;
     public const int Standard = 2;
-    
+
+    public int Id { get; set; }
     public double MonthlySalary { get; private set; }
     public int Type { get; private set; }
 
-    public Employee(string firstName, string lastName, int type, double monthlySalary) : base(firstName, lastName)
+    public Employee(int id, string firstName, string lastName, int type, double monthlySalary) : base(firstName, lastName)
     {
+        Id = id;
         Type = type;
         MonthlySalary = monthlySalary;
     }
@@ -83,11 +85,26 @@ public class Company
         this.Country = country;
     }
 
-    public void AddEmployee(string firstName, string lastName, int type, double monthlySalary, string streetName, string city, string postalCode,
+    public void AddEmployee(int id, string firstName, string lastName, int type, double monthlySalary, string streetName, string city, string postalCode,
         string region, string country)
     {
-        Employee employee = new Employee(firstName, lastName, type, monthlySalary);
+        Employee employee = new Employee(id, firstName, lastName, type, monthlySalary);
         employee.AssignAddress(streetName, city, postalCode, region, country);
         Employees.Add(employee);
+    }
+
+    public void UpdateEmployeeSalary(int id, double salary)
+    {
+        Employee employee;
+        for (int i = 0; i < Employees.Count; i++)
+        {
+            if (Employees[i].Id == id)
+            {
+                employee = Employees[i];
+                break;
+            }
+        }
+
+        employee.MonthlySalary = salary;
     }
 }
