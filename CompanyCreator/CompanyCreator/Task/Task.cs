@@ -1,4 +1,4 @@
-﻿namespace CompanyCreator;
+﻿namespace CompanyCreator.Task;
 
 public class Person
 {
