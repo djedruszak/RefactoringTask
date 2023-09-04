@@ -69,7 +69,10 @@ public class Company
     public string? Region { get; private set; }
     public string? Country { get; private set; }
 
+    public IRepository Repository { get; set; }
     public List<Employee> Employees { get; private set; }
+    
+    private object guard = new object();
 
     public Company(string name)
     {
@@ -91,6 +94,14 @@ public class Company
         Employee employee = new Employee(id, firstName, lastName, type, monthlySalary);
         employee.AssignAddress(streetName, city, postalCode, region, country);
         Employees.Add(employee);
+    }
+
+    public async void SaveEmployees(List<Employee> employees)
+    {
+        lock (guard)
+        {
+            await Repository.SaveEmployees(employees);
+        }
     }
 
     public void UpdateEmployeeSalary(int id, double salary)

@@ -106,12 +106,14 @@ public class Company
 {
     public string Name { get; set; }
     public Address? Address { get; set; }
+    private readonly IRepository _repository;
     
     public List<Employee> Employees { get; private set; }
 
-    public Company(string name)
+    public Company(string name, IRepository repository)
     {
         Name = name;
+        _repository = repository;
         Employees = new List<Employee>();
     }
 
@@ -122,6 +124,10 @@ public class Company
         Employees.Add(employee);
     }
 
+    public async System.Threading.Tasks.Task SaveEmployees()
+    {
+        await _repository.SaveEmployees(Employees);
+    }
     public void UpdateEmployeeSalary(int id, double salary)
     {
         var employee = Employees.FirstOrDefault(e => e.Id == id);
